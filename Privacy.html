@@ -43,6 +43,11 @@
             padding: 5px;
             font-size: 16px;
         }
+        #policy-meta {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
@@ -56,18 +61,36 @@
             <option value="zh-HK">香港中文</option>
         </select>
     </div>
+    <div id="policy-meta"></div>
     <div id="loading">Loading privacy policy...</div>
     <div id="content"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         let currentLang = localStorage.getItem('selectedLang') || 'en';
+        let manifest = null;
         document.getElementById('lang-select').value = currentLang;
+
+        function renderPolicyMeta() {
+            const metaElement = document.getElementById('policy-meta');
+            if (!manifest) {
+                metaElement.textContent = '';
+                return;
+            }
+
+            const version = manifest.privacyVersion || 'N/A';
+            const publishDate = manifest.privacyPublishDate || 'N/A';
+            metaElement.textContent = 'Version: ' + version + ' | Published: ' + publishDate;
+        }
 
         function loadPrivacy(lang) {
             document.getElementById('loading').style.display = 'block';
             document.getElementById('content').style.display = 'none';
-            fetch('./' + lang + '/Privacy.md')
+            const privacyPath = manifest && manifest.privacy && manifest.privacy[lang]
+                ? manifest.privacy[lang]
+                : './' + lang + '/Privacy.md';
+
+            fetch(privacyPath)
                 .then(response => response.text())
                 .then(text => {
                     document.getElementById('content').innerHTML = marked.parse(text);
@@ -86,7 +109,17 @@
             loadPrivacy(currentLang);
         });
 
-        loadPrivacy(currentLang);
+        fetch('./policy-manifest.json')
+            .then(response => response.json())
+            .then(data => {
+                manifest = data;
+                renderPolicyMeta();
+                loadPrivacy(currentLang);
+            })
+            .catch(error => {
+                console.error('Error loading policy-manifest.json:', error);
+                loadPrivacy(currentLang);
+            });
     </script>
 </body>
 </html>
