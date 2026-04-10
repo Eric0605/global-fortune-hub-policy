@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Fortune Hub Terms and Conditions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        #content {
+            display: none;
+        }
+        #loading {
+            text-align: center;
+            font-size: 18px;
+        }
+        #language-selector {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Global Fortune Hub Terms and Conditions</h1>
+    <div id="language-selector">
+        <label for="lang-select">Select Language: </label>
+        <select id="lang-select">
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="zh-Hant">繁體中文</option>
+            <option value="zh-HK">香港中文</option>
+        </select>
+    </div>
+    <div id="loading">Loading terms...</div>
+    <div id="content"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        let currentLang = localStorage.getItem('selectedLang') || 'en';
+        document.getElementById('lang-select').value = currentLang;
+
+        function loadTerms(lang) {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('content').style.display = 'none';
+            fetch('./' + lang + '/Terms.md')
+                .then(response => response.text())
+                .then(text => {
+                    document.getElementById('content').innerHTML = marked.parse(text);
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+                })
+                .catch(error => {
+                    document.getElementById('loading').textContent = 'Error loading terms. Please check the file path.';
+                    console.error('Error loading Terms.md:', error);
+                });
+        }
+
+        document.getElementById('lang-select').addEventListener('change', function() {
+            currentLang = this.value;
+            localStorage.setItem('selectedLang', currentLang);
+            loadTerms(currentLang);
+        });
+
+        loadTerms(currentLang);
+    </script>
+</body>
+</html>
