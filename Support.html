@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Fortune Hub Support</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f6f1e7;
+            --surface: rgba(255, 252, 247, 0.92);
+            --surface-strong: #fffdf8;
+            --text: #1f1a17;
+            --muted: #6f625a;
+            --line: rgba(88, 65, 50, 0.14);
+            --accent: #b45f2b;
+            --accent-deep: #7f3e18;
+            --shadow: 0 22px 60px rgba(92, 66, 44, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.65;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top, rgba(217, 166, 121, 0.26), transparent 34%),
+                linear-gradient(180deg, #fbf6ef 0%, var(--bg) 100%);
+        }
+
+        a {
+            color: var(--accent-deep);
+        }
+
+        .page {
+            width: min(920px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 48px 0 72px;
+        }
+
+        .hero,
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(8px);
+        }
+
+        .hero {
+            padding: 40px 32px;
+            margin-bottom: 24px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
+        }
+
+        .language-selector {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 252, 247, 0.82);
+            border: 1px solid var(--line);
+            box-shadow: 0 10px 30px rgba(92, 66, 44, 0.08);
+        }
+
+        .language-selector label {
+            font-size: 0.92rem;
+            color: var(--muted);
+        }
+
+        .language-selector select {
+            border: 0;
+            background: transparent;
+            color: var(--text);
+            font: inherit;
+        }
+
+        .eyebrow {
+            margin: 0 0 12px;
+            font-size: 12px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            line-height: 1.15;
+            color: #201612;
+        }
+
+        h1 {
+            font-size: clamp(2.3rem, 4vw, 4.4rem);
+            max-width: 10ch;
+        }
+
+        .hero p {
+            max-width: 640px;
+            margin: 18px 0 0;
+            font-size: 1.05rem;
+            color: var(--muted);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            padding: 28px;
+        }
+
+        .contact-link {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 12px 16px;
+            border-radius: 999px;
+            background: #f3e4d5;
+            color: var(--accent-deep);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .meta {
+            margin-top: 16px;
+            color: var(--muted);
+            font-size: 0.96rem;
+        }
+
+        ul {
+            margin: 18px 0 0;
+            padding-left: 20px;
+        }
+
+        li + li {
+            margin-top: 10px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 22px;
+        }
+
+        .step {
+            padding: 18px;
+            border-radius: 18px;
+            background: var(--surface-strong);
+            border: 1px solid var(--line);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            margin-bottom: 12px;
+            border-radius: 50%;
+            background: #f0d7bf;
+            color: var(--accent-deep);
+            font-weight: 700;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .resource-links a {
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-note {
+            margin-top: 22px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 760px) {
+            .page {
+                width: min(100% - 20px, 920px);
+                padding: 20px 0 40px;
+            }
+
+            .hero,
+            .card {
+                border-radius: 20px;
+            }
+
+            .hero,
+            .card {
+                padding: 24px 20px;
+            }
+
+            .grid,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <div class="topbar">
+            <div class="language-selector">
+                <label for="lang-select" id="lang-label">Select Language:</label>
+                <select id="lang-select">
+                    <option value="en">English</option>
+                    <option value="ja">日本語</option>
+                    <option value="zh-Hant">繁體中文</option>
+                    <option value="zh-HK">香港中文</option>
+                </select>
+            </div>
+        </div>
+
+        <section class="hero">
+            <p class="eyebrow" id="eyebrow">Global Fortune Hub</p>
+            <h1 id="hero-title">Support</h1>
+            <p id="hero-copy"></p>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h2 id="contact-title"></h2>
+                <p id="contact-copy"></p>
+                <a class="contact-link" href="mailto:erictthk@gmail.com">erictthk@gmail.com</a>
+                <p class="meta" id="contact-meta"></p>
+            </article>
+
+            <article class="card">
+                <h2 id="topics-title"></h2>
+                <ul>
+                    <li id="topic-1"></li>
+                    <li id="topic-2"></li>
+                    <li id="topic-3"></li>
+                    <li id="topic-4"></li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="card">
+            <h2 id="before-title"></h2>
+            <p id="before-copy"></p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 id="step1-title"></h3>
+                    <p id="step1-copy"></p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 id="step2-title"></h3>
+                    <p id="step2-copy"></p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 id="step3-title"></h3>
+                    <p id="step3-copy"></p>
+                </div>
+            </div>
+            <p class="footer-note" id="footer-note"></p>
+        </section>
+
+        <section class="card" style="margin-top: 24px;">
+            <h2 id="policies-title"></h2>
+            <p id="policies-copy"></p>
+            <div class="resource-links">
+                <a href="./Privacy.html" id="privacy-link"></a>
+                <a href="./Terms.html" id="terms-link"></a>
+            </div>
+        </section>
+    </main>
+    <script>
+        const translations = {
+            en: {
+                pageTitle: "Global Fortune Hub Support",
+                langLabel: "Select Language:",
+                eyebrow: "Global Fortune Hub",
+                heroTitle: "Support",
+                heroCopy: "Need help with the app, your account, a purchase, or a bug report? Use the contact details below and include as much detail as possible so the issue can be reviewed quickly.",
+                contactTitle: "Contact Support",
+                contactCopy: "For general support, account issues, privacy requests, or bug reports, contact the Global Fortune Hub operator directly by email.",
+                contactMeta: "You can also use the in-app Feedback screen or the support contact shown in the App Store listing, where available.",
+                topicsTitle: "Common Help Topics",
+                topic1: "Account access, sign-in, or deletion requests",
+                topic2: "Subscription, restore purchase, or entitlement issues",
+                topic3: "Bug reports, crashes, and unexpected app behavior",
+                topic4: "Privacy, data handling, and content-related questions",
+                beforeTitle: "Before You Email",
+                beforeCopy: "Including the details below will usually reduce follow-up time and make troubleshooting easier.",
+                step1Title: "Describe the issue",
+                step1Copy: "Explain what happened, what you expected, and whether the issue can be repeated.",
+                step2Title: "Add device details",
+                step2Copy: "Include your device model, iOS version, app version, and the language or region you are using.",
+                step3Title: "Share account context",
+                step3Copy: "For sign-in or purchase issues, include the Apple ID region or account email tied to the app if relevant.",
+                footerNote: "Do not send sensitive payment card details, government IDs, or other highly sensitive personal information by email.",
+                policiesTitle: "Policies",
+                policiesCopy: "For legal terms and data handling details, review the policy pages below.",
+                privacyLink: "Privacy Policy",
+                termsLink: "Terms and Conditions"
+            },
+            ja: {
+                pageTitle: "Global Fortune Hub サポート",
+                langLabel: "言語を選択:",
+                eyebrow: "Global Fortune Hub",
+                heroTitle: "サポート",
+                heroCopy: "アプリ、アカウント、購入、または不具合報告についてサポートが必要な場合は、以下の連絡先をご利用ください。できるだけ詳しい情報を添えると確認が早くなります。",
+                contactTitle: "サポート連絡先",
+                contactCopy: "一般的なサポート、アカウントの問題、プライバシーに関する依頼、不具合報告については、Global Fortune Hub の運営者にメールで直接ご連絡ください。",
+                contactMeta: "利用可能な場合は、アプリ内のフィードバック画面や App Store のサポート連絡先も利用できます。",
+                topicsTitle: "よくあるお問い合わせ内容",
+                topic1: "アカウントへのアクセス、サインイン、削除依頼",
+                topic2: "サブスクリプション、購入の復元、利用権限の問題",
+                topic3: "不具合報告、クラッシュ、予期しないアプリ動作",
+                topic4: "プライバシー、データの取り扱い、コンテンツに関する質問",
+                beforeTitle: "メール送信前に",
+                beforeCopy: "以下の情報を含めると、通常は確認やトラブルシューティングがしやすくなります。",
+                step1Title: "問題の内容を説明",
+                step1Copy: "何が起きたか、期待していた結果、再現できるかどうかを記載してください。",
+                step2Title: "端末情報を追加",
+                step2Copy: "端末モデル、iOS のバージョン、アプリのバージョン、使用中の言語や地域を記載してください。",
+                step3Title: "アカウント情報を共有",
+                step3Copy: "サインインや購入の問題では、必要に応じて Apple ID の地域またはアプリに関連するメールアドレスを含めてください。",
+                footerNote: "メールでは、支払いカード情報、身分証番号、その他の高度に機密性の高い個人情報を送信しないでください。",
+                policiesTitle: "ポリシー",
+                policiesCopy: "法的条件やデータの取り扱いについては、以下のページをご確認ください。",
+                privacyLink: "プライバシーポリシー",
+                termsLink: "利用規約"
+            },
+            "zh-Hant": {
+                pageTitle: "Global Fortune Hub 支援",
+                langLabel: "選擇語言:",
+                eyebrow: "Global Fortune Hub",
+                heroTitle: "支援",
+                heroCopy: "如果你需要應用程式、帳戶、購買項目或錯誤回報方面的協助，請使用以下聯絡方式，並盡量提供完整資訊以便更快處理。",
+                contactTitle: "聯絡支援",
+                contactCopy: "如需一般支援、帳戶問題、私隱要求或錯誤回報，請直接電郵聯絡 Global Fortune Hub 營運者。",
+                contactMeta: "如有提供，你也可以使用 App 內的意見回饋畫面或 App Store 列表中的支援聯絡方式。",
+                topicsTitle: "常見支援主題",
+                topic1: "帳戶存取、登入或刪除要求",
+                topic2: "訂閱、恢復購買或權限問題",
+                topic3: "錯誤回報、閃退與非預期的應用程式行為",
+                topic4: "私隱、資料處理及內容相關問題",
+                beforeTitle: "寄送電郵前",
+                beforeCopy: "若包含以下資料，通常可減少後續來回確認時間並加快排查。",
+                step1Title: "描述問題",
+                step1Copy: "請說明發生了甚麼事、你原本預期的結果，以及問題是否可以重現。",
+                step2Title: "加入裝置資料",
+                step2Copy: "請提供裝置型號、iOS 版本、App 版本，以及你正在使用的語言或地區。",
+                step3Title: "提供帳戶資訊",
+                step3Copy: "如屬登入或購買問題，請在適用情況下提供 Apple ID 地區或與應用程式相關的帳戶電郵。",
+                footerNote: "請勿透過電郵傳送信用卡資料、政府身分證件號碼或其他高度敏感的個人資料。",
+                policiesTitle: "政策文件",
+                policiesCopy: "如需查看法律條款及資料處理細節，請參閱以下頁面。",
+                privacyLink: "私隱政策",
+                termsLink: "條款及細則"
+            },
+            "zh-HK": {
+                pageTitle: "Global Fortune Hub 客服支援",
+                langLabel: "選擇語言:",
+                eyebrow: "Global Fortune Hub",
+                heroTitle: "客服支援",
+                heroCopy: "如果你需要有關 App、帳戶、購買項目或者錯誤回報的協助，請使用以下聯絡方式，並盡量提供完整資料，方便更快跟進。",
+                contactTitle: "聯絡客服",
+                contactCopy: "如需一般支援、帳戶問題、私隱要求或者錯誤回報，請直接透過電郵聯絡 Global Fortune Hub 營運者。",
+                contactMeta: "如適用，你亦可以使用 App 內的意見回饋頁面，或者 App Store 列表中的支援聯絡方式。",
+                topicsTitle: "常見求助項目",
+                topic1: "帳戶存取、登入或刪除申請",
+                topic2: "訂閱、恢復購買或使用權限問題",
+                topic3: "錯誤回報、閃退及異常 App 行為",
+                topic4: "私隱、資料處理及內容相關查詢",
+                beforeTitle: "寄電郵前",
+                beforeCopy: "如果你附上以下資料，通常可以減少來回追問時間，令排查更快。",
+                step1Title: "描述問題",
+                step1Copy: "請說明實際發生了甚麼、你原本預期的結果，以及問題是否能夠重現。",
+                step2Title: "提供裝置資料",
+                step2Copy: "請提供裝置型號、iOS 版本、App 版本，以及你正在使用的語言或地區設定。",
+                step3Title: "提供帳戶背景",
+                step3Copy: "如屬登入或購買問題，請按需要提供 Apple ID 地區，或與 App 相關的帳戶電郵。",
+                footerNote: "請不要透過電郵傳送信用卡資料、政府證件號碼或其他高度敏感的個人資料。",
+                policiesTitle: "政策文件",
+                policiesCopy: "如需查看法律條款及資料處理詳情，請參閱以下頁面。",
+                privacyLink: "私隱政策",
+                termsLink: "條款及細則"
+            }
+        };
+
+        let currentLang = localStorage.getItem("selectedLang") || "en";
+        if (!translations[currentLang]) {
+            currentLang = "en";
+        }
+
+        const elements = {
+            langLabel: document.getElementById("lang-label"),
+            eyebrow: document.getElementById("eyebrow"),
+            heroTitle: document.getElementById("hero-title"),
+            heroCopy: document.getElementById("hero-copy"),
+            contactTitle: document.getElementById("contact-title"),
+            contactCopy: document.getElementById("contact-copy"),
+            contactMeta: document.getElementById("contact-meta"),
+            topicsTitle: document.getElementById("topics-title"),
+            topic1: document.getElementById("topic-1"),
+            topic2: document.getElementById("topic-2"),
+            topic3: document.getElementById("topic-3"),
+            topic4: document.getElementById("topic-4"),
+            beforeTitle: document.getElementById("before-title"),
+            beforeCopy: document.getElementById("before-copy"),
+            step1Title: document.getElementById("step1-title"),
+            step1Copy: document.getElementById("step1-copy"),
+            step2Title: document.getElementById("step2-title"),
+            step2Copy: document.getElementById("step2-copy"),
+            step3Title: document.getElementById("step3-title"),
+            step3Copy: document.getElementById("step3-copy"),
+            footerNote: document.getElementById("footer-note"),
+            policiesTitle: document.getElementById("policies-title"),
+            policiesCopy: document.getElementById("policies-copy"),
+            privacyLink: document.getElementById("privacy-link"),
+            termsLink: document.getElementById("terms-link")
+        };
+
+        const langSelect = document.getElementById("lang-select");
+
+        function renderContent(lang) {
+            const copy = translations[lang] || translations.en;
+            document.documentElement.lang = lang;
+            document.title = copy.pageTitle;
+
+            Object.keys(elements).forEach(function(key) {
+                elements[key].textContent = copy[key];
+            });
+        }
+
+        langSelect.value = currentLang;
+        renderContent(currentLang);
+
+        langSelect.addEventListener("change", function() {
+            currentLang = this.value;
+            localStorage.setItem("selectedLang", currentLang);
+            renderContent(currentLang);
+        });
+    </script>
+</body>
+</html>
